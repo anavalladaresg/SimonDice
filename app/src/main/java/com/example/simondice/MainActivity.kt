@@ -39,6 +39,7 @@ val recordJugador = DataRecord(0)
 
 /**
  * Actividad principal de la aplicación.
+ * Rama checkeo
  * @author Ana Valladares Gonzalez
  */
 class MainActivity : ComponentActivity() {
@@ -82,7 +83,7 @@ fun interfazColores(modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.bodyLarge, // Estilo
                 modifier = Modifier.padding(16.dp) // Modificador
             )
-            Botones(texto_colores, record) //
+            Botones(texto_colores, record) // Mostrar los botones
         }
     }
 }
@@ -92,8 +93,8 @@ fun interfazColores(modifier: Modifier = Modifier) {
  * @param record MutableState que contiene el valor actual del récord.
  */
 fun incrementarRecord(record: MutableState<Int>) {
-    record.value += 1
-    recordJugador.record = record.value
+    record.value += 1 // Incrementar el récord
+    recordJugador.record = record.value // Actualizar el récord del jugador
 }
 
 /**
@@ -103,9 +104,9 @@ fun incrementarRecord(record: MutableState<Int>) {
  */
 @Composable
 fun BotonVerde(buttonValues: MutableList<String>, record: MutableState<Int>) {
-    Button(
-        onClick = {
-            buttonValues.add("Verde")
+    Button( // Botón
+        onClick = { // Acción al presionar el botón
+            buttonValues.add("Verde") //
             incrementarRecord(record)
         },
         modifier = Modifier
