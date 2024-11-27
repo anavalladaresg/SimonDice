@@ -1,45 +1,42 @@
-# Simon Dice App
+# Simon Dice
 
 ##### 👤 Autor: Ana Valladares González
 
-## Descripción General
-La aplicación Simon Dice es un juego desarrollado en Kotlin y Jetpack Compose. La app sigue el patrón de arquitectura MVVM (Model-View-ViewModel) y utiliza corutinas para operaciones asincrónicas. El objetivo principal del juego es repetir la secuencia de colores mostrada por la aplicación.
+Este proyecto es una implementación del juego "Simon Dice" utilizando Kotlin y Jetpack Compose para la interfaz de usuario. El objetivo del juego es seguir una secuencia de colores que se muestra al usuario y repetirla correctamente.
 
 ## Estructura del Proyecto
 
-### MainActivity
-- **Propósito**: Punto de entrada principal de la aplicación.
-- **Métodos Clave**:
-  - `onCreate(savedInstanceState: Bundle?)`: Establece el contenido de la actividad a la interfaz de usuario definida en `interfazColores`.
+### `MainViewModel.kt`
+Esta clase es el ViewModel principal del juego. Contiene la lógica del juego y maneja el estado de la aplicación.
 
-### MainViewModel
-- **Propósito**: Gestiona los datos relacionados con la UI de manera consciente del ciclo de vida.
-- **Métodos Clave**:
-  - `startNewGame()`: Inicia un nuevo juego.
-  - `addColorToSequence()`: Agrega un nuevo color a la secuencia.
+- **Variables:**
+  - `errorMessage`: Un `StateFlow` que contiene mensajes de error.
+  - `colors`: Una lista de colores disponibles en el juego.
+
+- **Funciones:**
+  - `startNewGame()`: Reinicia el juego y agrega un color a la secuencia.
+  - `addColorToSequence()`: Agrega un color aleatorio a la secuencia y la muestra.
   - `showSequence()`: Muestra la secuencia de colores al usuario.
-  - `userInput(color: Color)`: Registra la entrada del usuario.
-  - `checkUserSequence()`: Verifica si la secuencia del usuario es correcta.
+  - `userInput(color: Color)`: Recibe el color ingresado por el usuario y lo agrega a la secuencia del usuario.
+  - `checkUserSequence()`: Compara la secuencia del usuario con la secuencia del juego.
+  - `clearErrorMessage()`: Limpia el mensaje de error.
 
-### MainViewModelFactory
-- **Propósito**: Clase fábrica para crear instancias de `MainViewModel`.
-- **Métodos Clave**:
-  - `create(modelClass: Class<T>): T`: Crea y retorna una instancia de `MainViewModel`.
+### `IU.kt`
+Este archivo contiene las funciones composables que definen la interfaz de usuario del juego.
 
-### RecordRepository
-- **Propósito**: Gestiona las operaciones de datos y proporciona una API limpia para el acceso a los datos en el resto de la aplicación.
-- **Métodos Clave**:
-  - `incrementarRecord()`: Incrementa el valor del récord.
-- **Propiedades**:
-  - `_record`: Un `MutableStateFlow` que contiene el récord actual.
-  - `record`: Un `Flow` que expone el récord actual.
+- **Funciones Composables:**
+  - `interfazColores()`: La interfaz principal que muestra el récord y los botones de colores.
+  - `Botones()`: Contiene los botones de colores.
+  - `BotonVerde()`, `BotonRosa()`, `BotonAzul()`, `BotonNaranja()`: Botones individuales para cada color.
 
-### IU.kt
-- **Propósito**: Define la interfaz de usuario utilizando Jetpack Compose.
-- **Componentes Clave**:
-  - `interfazColores(viewModel: MainViewModel, modifier: Modifier)`: El componente principal de la UI que muestra el récord actual y los botones.
-  - `Botones(viewModel: MainViewModel, currentColor: Color?)`: Un componente que organiza los botones de colores en una cuadrícula.
-  - `BotonVerde(viewModel: MainViewModel, currentColor: Color?)`, `BotonRosa(viewModel: MainViewModel, currentColor: Color?)`, `BotonAzul(viewModel: MainViewModel, currentColor: Color?)`, `BotonNaranja(viewModel: MainViewModel, currentColor: Color?)`: Componentes para cada botón de color que registran la entrada del usuario y se iluminan según la secuencia.
+### `MainViewModelFactory.kt`
+Esta clase es una fábrica para crear instancias de `MainViewModel`.
 
-## Finalidad del Proyecto
-El propósito de este proyecto es demostrar el uso del patrón de arquitectura MVVM, corutinas para operaciones asincrónicas y Jetpack Compose para construir la interfaz de usuario en una aplicación de juego Simon Dice.
+- **Funciones:**
+  - `create(modelClass: Class<T>): T`: Crea una instancia de `MainViewModel` utilizando un `RecordRepository`.
+
+### `Datos.kt`
+Esta clase es una data class en Kotlin que almacena el récord del juego.
+
+- **Propiedades:**
+  - `record`: Un entero que representa el récord del juego.
