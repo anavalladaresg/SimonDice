@@ -3,12 +3,14 @@ package com.example.simondice
 
 import MainViewModel
 import android.content.res.Configuration
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,8 +24,9 @@ import androidx.compose.runtime.collectAsState
 
 @Composable
 fun interfazColores(viewModel: MainViewModel = viewModel(), modifier: Modifier = Modifier) {
-    val record by viewModel.record.collectAsState() // Se obtiene el record del ViewModel como State
-    val currentColor by viewModel.currentColor.collectAsState() // Se obtiene el color actual del ViewModel como State
+    val record by viewModel.record.collectAsState()
+    val currentColor by viewModel.currentColor.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -39,6 +42,18 @@ fun interfazColores(viewModel: MainViewModel = viewModel(), modifier: Modifier =
                 modifier = Modifier.padding(16.dp)
             )
             Botones(viewModel, currentColor)
+        }
+        errorMessage?.let { message ->
+            Snackbar(
+                modifier = Modifier.padding(16.dp),
+                action = {
+                    Button(onClick = { viewModel.clearErrorMessage() }) {
+                        Text("Dismiss")
+                    }
+                }
+            ) {
+                Text(message)
+            }
         }
     }
 }
@@ -59,6 +74,9 @@ fun Botones(viewModel: MainViewModel, currentColor: Color?) {
 
 @Composable
 fun BotonVerde(viewModel: MainViewModel, currentColor: Color?) {
+    val backgroundColor by animateColorAsState(
+        targetValue = if (currentColor == PastelGreen) Color.LightGray else PastelGreen
+    )
     Button(
         onClick = { viewModel.userInput(PastelGreen) },
         modifier = Modifier
@@ -66,12 +84,15 @@ fun BotonVerde(viewModel: MainViewModel, currentColor: Color?) {
             .width(125.dp)
             .height(125.dp),
         shape = CutCornerShape(4.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = if (currentColor == PastelGreen) Color.LightGray else PastelGreen)
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
     ) {}
 }
 
 @Composable
 fun BotonRosa(viewModel: MainViewModel, currentColor: Color?) {
+    val backgroundColor by animateColorAsState(
+        targetValue = if (currentColor == PastelPink) Color.LightGray else PastelPink
+    )
     Button(
         onClick = { viewModel.userInput(PastelPink) },
         modifier = Modifier
@@ -79,12 +100,15 @@ fun BotonRosa(viewModel: MainViewModel, currentColor: Color?) {
             .width(125.dp)
             .height(125.dp),
         shape = CutCornerShape(4.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = if (currentColor == PastelPink) Color.LightGray else PastelPink)
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
     ) {}
 }
 
 @Composable
 fun BotonAzul(viewModel: MainViewModel, currentColor: Color?) {
+    val backgroundColor by animateColorAsState(
+        targetValue = if (currentColor == PastelBlue) Color.LightGray else PastelBlue
+    )
     Button(
         onClick = { viewModel.userInput(PastelBlue) },
         modifier = Modifier
@@ -92,12 +116,15 @@ fun BotonAzul(viewModel: MainViewModel, currentColor: Color?) {
             .width(125.dp)
             .height(125.dp),
         shape = CutCornerShape(4.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = if (currentColor == PastelBlue) Color.LightGray else PastelBlue)
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
     ) {}
 }
 
 @Composable
 fun BotonNaranja(viewModel: MainViewModel, currentColor: Color?) {
+    val backgroundColor by animateColorAsState(
+        targetValue = if (currentColor == PastelOrange) Color.LightGray else PastelOrange
+    )
     Button(
         onClick = { viewModel.userInput(PastelOrange) },
         modifier = Modifier
@@ -105,6 +132,6 @@ fun BotonNaranja(viewModel: MainViewModel, currentColor: Color?) {
             .width(125.dp)
             .height(125.dp),
         shape = CutCornerShape(4.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = if (currentColor == PastelOrange) Color.LightGray else PastelOrange)
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
     ) {}
 }
