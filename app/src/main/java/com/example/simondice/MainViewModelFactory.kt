@@ -1,5 +1,6 @@
 package com.example.simondice
 
+import MainViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
